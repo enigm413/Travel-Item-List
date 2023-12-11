@@ -23,8 +23,13 @@ function Logo() {
 
 //Function to define Form Component
 function Form() {
+  // Function to handle default form submsion
+  const handleSubmit = () => {
+    Event.preventDefault();
+  };
+
   return (
-    <form className="add-form">
+    <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 Trip?</h3>
       <select>
         {/* Defining Array of option available in select element */}
