@@ -1,6 +1,7 @@
 const itemData = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
   { id: 2, description: "Socks", quantity: 12, packed: false },
+  { id: 3, description: "Charger", quantity: 1, packed: true },
 ];
 
 //Function to define Main App Component
@@ -9,6 +10,7 @@ export default function App() {
     <div className="app">
       <Logo />
       <Form />
+      <PackingList />
       <Stats />
     </div>
   );
@@ -25,6 +27,7 @@ function Form() {
     <form className="add-form">
       <h3>What do you need for your 😍 Trip?</h3>
       <select>
+        {/* Defining Array of option available in select element */}
         {[...Array(20).keys()].map((indexValue) => (
           <option value={indexValue}>{indexValue + 1}</option>
         ))}
@@ -32,6 +35,29 @@ function Form() {
       <input type="text" placeholder="Item....." />
       <button>Add Item</button>
     </form>
+  );
+}
+
+function PackingList() {
+  return (
+    <div className="list">
+      <ul>
+        {itemData.map((item) => (
+          <Item itemObj={item} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Item({ itemObj }) {
+  return (
+    <li>
+      <span style={itemObj.packed ? { textDecoration: "line-through" } : {}}>
+        {itemObj.description} : {itemObj.quantity}
+      </span>
+      <button>&times;</button>
+    </li>
   );
 }
 
