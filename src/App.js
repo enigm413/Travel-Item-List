@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const itemData = [
   { id: 1, description: "Passports", quantity: 2, packed: false },
   { id: 2, description: "Socks", quantity: 12, packed: false },
@@ -23,21 +25,51 @@ function Logo() {
 
 //Function to define Form Component
 function Form() {
-  // Function to handle default form submsion
-  const handleSubmit = () => {
-    Event.preventDefault();
+  //Define state for input
+  const [description, setDescription] = useState("");
+
+  //Define state for quantity
+  const [quantity, setQuantity] = useState(1);
+
+  // Function to handle form submission
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!description) return;
+
+    const newItem = { description, quantity, packed: false, id: Date.now() };
+    console.log(newItem);
+
+    setDescription("");
+    setQuantity(1);
+  };
+
+  //Function to handle input
+  const handleInput = (event) => {
+    setDescription(event.target.value);
+  };
+
+  //Function to handle select
+  const handleSelect = (event) => {
+    setQuantity(event.target.value);
   };
 
   return (
     <form className="add-form" onSubmit={handleSubmit}>
       <h3>What do you need for your 😍 Trip?</h3>
-      <select>
+      <select value={quantity} onChange={handleSelect}>
         {/* Defining Array of option available in select element */}
         {[...Array(20).keys()].map((indexValue) => (
-          <option value={indexValue}>{indexValue + 1}</option>
+          <option value={indexValue} key={indexValue}>
+            {indexValue + 1}
+          </option>
         ))}
       </select>
-      <input type="text" placeholder="Item....." />
+      <input
+        type="text"
+        placeholder="Item....."
+        value={description}
+        onChange={handleInput}
+      />
       <button>Add Item</button>
     </form>
   );
@@ -48,7 +80,7 @@ function PackingList() {
     <div className="list">
       <ul>
         {itemData.map((item) => (
-          <Item itemObj={item} />
+          <Item itemObj={item} key={item.id} />
         ))}
       </ul>
     </div>
